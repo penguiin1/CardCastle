@@ -17,25 +17,26 @@ public class Inventory : UI_Popup{
     // 슬롯들.
     public Slot[] slots;
 
-    
+  
 
 
     // Use this for initialization
     void Start()
-    {
+    {   
         slots = go_SlotsParent.GetComponentsInChildren<Slot>();
         foreach(var slot in slots)
         {
             slot.gameObject.SetActive(false) ;
         }
-        go_InventoryBase.SetActive(false) ;
+        Init() ;
         
     }
-
+ 
     // Update is called once per frame
    public override void Init()
    {
           base.Init() ;
+        
           
    }
     public void TryOpenInventory( )
@@ -84,6 +85,10 @@ public class Inventory : UI_Popup{
                 return;
             }
         }
+    }
+    public void  closeall()
+    {
+       Managers.UI.CloseAllPopupUI() ; 
     }
 
   

@@ -61,7 +61,7 @@ public class Ui_Setting : UI_Popup
 
     public  void ExitSetting()
     {
-       // this.gameObject.SetActive(false) ;
+         Managers.UI.ClosePopupUI(this) ;
 
        
     }

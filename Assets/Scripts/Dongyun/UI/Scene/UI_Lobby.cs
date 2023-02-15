@@ -33,7 +33,7 @@ public class UI_Lobby : UI_Scene
     }
 
     public override void Init()
-    {  SettingCanvas.SetActive(false) ;
+    {  //SettingCanvas.SetActive(false) ;
         base.Init();
          Bind<GameObject>(typeof(GameObjects));
        GameObject Start = GetObject((int)GameObjects.GameStartButton).gameObject;
@@ -59,7 +59,7 @@ public class UI_Lobby : UI_Scene
     public void OnButtonClicked(PointerEventData data)
     {
         
-        SettingCanvas.SetActive(true);
+       Managers.UI.ShowPopupUI<Ui_Setting>("SettingCanvas") ;
      
     }
 
