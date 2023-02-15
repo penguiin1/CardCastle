@@ -12,6 +12,7 @@ public class Managers : MonoBehaviour
 
     #region Instances
     DataManager _data = new DataManager();
+      private static GameManagerEx s_gameManager = new GameManagerEx();
     
     SoundManager _sound = new SoundManager();
     UIManager _ui = new UIManager();
@@ -19,12 +20,13 @@ public class Managers : MonoBehaviour
     ResourceManager _resource = new ResourceManager() ; 
 
     public static DataManager Data { get { return Instance._data; } }
+      public static GameManagerEx Game { get { Init(); return s_gameManager; } }
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
     #endregion
 
-    private void Awake()
+    private void start()
     {
         Init();
       
@@ -45,8 +47,10 @@ public class Managers : MonoBehaviour
                 DontDestroyOnLoad(go);
                 s_instance = go.GetComponent<Managers>();
                  s_instance._data.Init();
+                   s_instance._sound.Init();
 
             }
+     
         }
     }
 }

@@ -8,10 +8,6 @@ public class Inventory : UI_Popup{
     public static bool inventoryActivated = false;
 
 
-   enum CardSlot{
-
-
-   }
     // 필요한 컴포넌트
     [SerializeField]
      GameObject go_InventoryBase ;
@@ -21,21 +17,27 @@ public class Inventory : UI_Popup{
     // 슬롯들.
     public Slot[] slots;
 
+    
+
 
     // Use this for initialization
     void Start()
     {
         slots = go_SlotsParent.GetComponentsInChildren<Slot>();
+        foreach(var slot in slots)
+        {
+            slot.gameObject.SetActive(false) ;
+        }
         go_InventoryBase.SetActive(false) ;
         
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+   public override void Init()
+   {
+          base.Init() ;
+          
+   }
     public void TryOpenInventory( )
     {
    
@@ -66,7 +68,7 @@ public class Inventory : UI_Popup{
                 if(slots[i].card != null)
                 {
                     if (slots[i].card.num == _card.num)
-                    {
+                    {  
                         slots[i].SetSlotCount(_count);
                         return;
                     }
@@ -77,10 +79,12 @@ public class Inventory : UI_Popup{
         for (int i = 0; i < slots.Length; i++)
         {
             if (slots[i].card == null)
-            {
+            { 
                 slots[i].AddCard(_card, _count);
                 return;
             }
         }
     }
+
+  
 }

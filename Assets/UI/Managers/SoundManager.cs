@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class SoundManager
 {
-    AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
-    Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
+   public  AudioSource[] _audioSources = new AudioSource[(int)Define.Sound.MaxCount];
+    public Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
-    // MP3 Player   -> AudioSource
-    // MP3 음원     -> AudioClip
-    // 관객(귀)     -> AudioListener
+  
 
     public void Init()
     {
@@ -50,7 +48,11 @@ public class SoundManager
 	public void Play(AudioClip audioClip, Define.Sound type = Define.Sound.Effect, float pitch = 1.0f)
 	{
         if (audioClip == null)
-            return;
+        {   System.Console.WriteLine( "음악이없어요");
+            return ;
+        }
+        
+          
 
 		if (type == Define.Sound.Bgm)
 		{
@@ -70,7 +72,7 @@ public class SoundManager
 		}
 	}
 
-	AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
+	public AudioClip GetOrAddAudioClip(string path, Define.Sound type = Define.Sound.Effect)
     {
 		if (path.Contains("Sounds/") == false)
 			path = $"Sounds/{path}";
@@ -95,4 +97,6 @@ public class SoundManager
 
 		return audioClip;
     }
+
+
 }

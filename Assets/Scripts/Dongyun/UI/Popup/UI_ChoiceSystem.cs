@@ -8,10 +8,10 @@ public class UI_ChoiceSystem : UI_Popup
 {
     private string question;
     public List<string> answerList; 
-    public GameObject go ; 
+    
     public  Text question_Text;
     public Text[] answer_Text ; 
-
+    public GameObject go ;
     public GameObject[] answer_Panel ; 
 
     public GameObject Card1;
@@ -19,11 +19,14 @@ public class UI_ChoiceSystem : UI_Popup
 
     public GameObject Card3;
   
-      List<CardItem> card_List;
+     public  List<CardItem> card_List;
+      
 
     public Inventory _inven ;
     private int count ;
     private int result ;
+
+    public int Cardcount =3 ; 
 
 
     private WaitForSeconds waitTime = new WaitForSeconds(0.01f) ; 
@@ -39,11 +42,11 @@ public class UI_ChoiceSystem : UI_Popup
     }
 
     void Start()
-    {  
+    {    go.SetActive(false) ;
           Init() ;
       		Bind<GameObject>(typeof(GameObjects));
 
-      go.SetActive(false) ;
+     
       answerList = new List<string>();
      
       for(int i=0; i<=2; i++)
@@ -62,13 +65,16 @@ public class UI_ChoiceSystem : UI_Popup
 	}
 
   public void ShowRoomChoice() 
-  { TextClear();
-     choiceIng = true ;   
+  { 
+    TextClear();
+     question_Text.alignment = TextAnchor.MiddleCenter;
     go.SetActive(true) ;
+    choiceIng = true ;   
+   
     answer_Panel[2].SetActive(false) ;
     Card1.SetActive(false);
-     Card2.SetActive(false);
-      Card3.SetActive(false);
+    Card2.SetActive(false);
+     Card3.SetActive(false);
 
     List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().RoomQuestion ;
      List<string> answerlist_enter =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_enter ;
@@ -92,21 +98,26 @@ public class UI_ChoiceSystem : UI_Popup
     public void ShowCardChoice( )  
   { 
     TextClear();
+     go.SetActive(true) ;
     card_List = new List<CardItem>(); 
     choiceIng = true ;   
-    go.SetActive(true) ;
+    
 
       result = 0 ;
      List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().CardQuestion ;
      question = questionlist[Random.Range(0,questionlist.Count)] ;
+     question_Text.alignment = TextAnchor.UpperCenter;
     
     CardImageSetting() ;
+
+
+
 
        Card1.SetActive(true);
        
        answerList.Add($"책의 첫부분을 읽었다.{ card_List[0]._name}를 획득합니다") ;
         answer_Panel[0].SetActive(true); 
-        GameObject Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
+        GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
         BindEvent(Choice_1, (PointerEventData data) => { _inven.AcquireCard(card_List[0]); }, Define.UIEvent.Click);
 
 
@@ -114,14 +125,14 @@ public class UI_ChoiceSystem : UI_Popup
       answerList.Add($"책의 중간부분을 읽었다.{ card_List[1]._name}를 획득합니다") ;
        answer_Panel[1].SetActive(true); 
             GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
-        BindEvent(Choice_2, (PointerEventData data) => { _inven.AcquireCard(card_List[0]); }, Define.UIEvent.Click);
+        BindEvent(Choice_2, (PointerEventData data) => { _inven.AcquireCard(card_List[1]); }, Define.UIEvent.Click);
 
 
        Card3.SetActive(true);
        answerList.Add($"책의 마지막부분을 읽었다.{ card_List[2]._name}를 획득합니다") ;
          answer_Panel[2].SetActive(true); 
          GameObject Choice_3 = GetObject((int)GameObjects.Choice3_Button).gameObject;
-        BindEvent(Choice_3, (PointerEventData data) => { _inven.AcquireCard(card_List[0]); }, Define.UIEvent.Click);
+        BindEvent(Choice_3, (PointerEventData data) => { _inven.AcquireCard(card_List[2]); }, Define.UIEvent.Click);
 
 
      count = 2 ;
@@ -142,11 +153,35 @@ public class UI_ChoiceSystem : UI_Popup
        cardimagelist[0] = card1_image;
        cardimagelist[1] = card2_image;
        cardimagelist[2] = card3_image;
-     
+       int[] Lottery  = new int[3];
+
+for (int i = 0; i < 3; i++)
+
+{
+
+    Lottery[i] = Random.Range(1, Cardcount+1);
+
+ 
+
+    for (int j = 0; j <= i ; j++) //현재 발생시킨 지점까지 검색해서 같은수 비교
+
+    {
+
+        if (Lottery[i] == Lottery[j] && j != i)
+
+        {
+
+            i = i - 1; // 같은수 있으면 i하나 감소해서 다시 발생
+
+        }
+
+    }
+
+}
         for(int i=0; i<3;i++)
         {
-           int num = Random.Range(1,3);
-         CardItem test = Managers.Resource.Load<CardItem>($"Prefabs/Item/Card/{num}");
+          
+         CardItem test = Managers.Resource.Load<CardItem>($"Prefabs/Item/Card/{Lottery[i]}");
           card_List.Add(test) ; 
             cardimagelist[i].sprite = test.Card_Image ;
           
