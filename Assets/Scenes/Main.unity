@@ -682,7 +682,7 @@ MonoBehaviour:
   playerTransform: {fileID: 1498964799}
   cameraPosition: {x: 0, y: 0, z: -10}
   center: {x: 41, y: 0}
-  mapSize: {x: 50, y: 10}
+  mapSize: {x: 50, y: 50}
   cameraMoveSpeed: 2
 --- !u!20 &519420031
 Camera:
