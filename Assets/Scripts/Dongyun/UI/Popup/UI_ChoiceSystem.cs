@@ -6,13 +6,18 @@ using UnityEngine.UI;
 
 public class UI_ChoiceSystem : UI_Popup
 {
-    private string question;
+   public GameObject _Player ;
+    public string question;
     public List<string> answerList; 
     
     public  Text question_Text;
     public Text[] answer_Text ; 
-    public GameObject go ;
+    
     public GameObject[] answer_Panel ; 
+    public GameObject  Choice_1 ;
+     public GameObject  Choice_2 ;
+      public GameObject  Choice_3 ;
+
 
     public GameObject Card1;
     public GameObject Card2;
@@ -20,6 +25,8 @@ public class UI_ChoiceSystem : UI_Popup
     public GameObject Card3;
   
      public  List<CardItem> card_List;
+
+     public Dungeon _Dungeon ;
       
 
     public Inventory _inven ;
@@ -34,17 +41,15 @@ public class UI_ChoiceSystem : UI_Popup
     
       enum GameObjects
     {
-        Choice1_Button,
-        Choice2_Button,
-        Choice3_Button,
  
         ExplainImage  ,
+      
     }
 
     void Start()
-    {    go.SetActive(false) ;
+    {    
           Init() ;
-      		Bind<GameObject>(typeof(GameObjects));
+      	
 
      
       answerList = new List<string>();
@@ -60,7 +65,8 @@ public class UI_ChoiceSystem : UI_Popup
     public override void Init()
     {
         base.Init();
-
+       	Bind<GameObject>(typeof(GameObjects));
+       
    
 	}
 
@@ -68,7 +74,7 @@ public class UI_ChoiceSystem : UI_Popup
   { 
     TextClear();
      question_Text.alignment = TextAnchor.MiddleCenter;
-    go.SetActive(true) ;
+    
     choiceIng = true ;   
    
     answer_Panel[2].SetActive(false) ;
@@ -77,29 +83,49 @@ public class UI_ChoiceSystem : UI_Popup
      Card3.SetActive(false);
 
     List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().RoomQuestion ;
-     List<string> answerlist_enter =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_enter ;
-      List<string> answerlist_quit =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_quit ;
+    _Dungeon = Managers.Resource.Load<Dungeon>("Prefabs/Item/Dungeon/1");
+   
     question = this.gameObject.GetOrAddComponent<Choice>().RoomQuestion[Random.Range(0,questionlist.Count)] ; 
+    question_Text.text = question ;
       result = 0 ;
       
 
-        answerList.Add(answerlist_enter[Random.Range(0,answerlist_enter.Count)]) ;
+     
+      StartCoroutine(RoomTextSetting()) ;
+
+       
+       
+   }
+
+    IEnumerator RoomTextSetting()
+  {    
+      List<string> answer_enter =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_enter ;
+      List<string> answer_quit =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_quit ;
+         yield return new WaitForSeconds(0.2f) ;
+       
+           answerList.Add(answer_enter[Random.Range(0,answer_enter.Count)]) ;
+       answer_Text[0].text = answerList[0] ;
         answer_Panel[0].SetActive(true); 
+        //GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
+        BindEvent(Choice_1, (PointerEventData data) => {_Player.transform.position = _Dungeon.spawnpos.position;this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
+     
+       yield return new WaitForSeconds(0.2f) ;
 
-       answerList.Add(answerlist_quit[Random.Range(0,answerlist_enter.Count)]) ;
-        answer_Panel[1].SetActive(true); 
+      answerList.Add(answer_quit[Random.Range(0,answer_quit.Count)]) ;
+         answer_Text[1].text = answerList[1] ;
+       answer_Panel[1].SetActive(true); 
+          //  GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
+        BindEvent(Choice_2, (PointerEventData data) => { this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
 
-
-  
-       count = 1 ; 
-     StartCoroutine(ChoiceCoroutine()) ; 
-   
+       
+      
   }
     public void ShowCardChoice( )  
   { 
     TextClear();
-     go.SetActive(true) ;
+    
     card_List = new List<CardItem>(); 
+    answerList.Clear() ;
     choiceIng = true ;   
     
 
@@ -107,37 +133,44 @@ public class UI_ChoiceSystem : UI_Popup
      List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().CardQuestion ;
      question = questionlist[Random.Range(0,questionlist.Count)] ;
      question_Text.alignment = TextAnchor.UpperCenter;
-    
+     question_Text.text = question ;
+    	
     CardImageSetting() ;
 
+    StartCoroutine(CardTextSetting()) ;
 
 
+     
 
-       Card1.SetActive(true);
-       
-       answerList.Add($"책의 첫부분을 읽었다.{ card_List[0]._name}를 획득합니다") ;
+
+   
+  }
+
+  IEnumerator CardTextSetting()
+  {   
+         yield return new WaitForSeconds(0.2f) ;
+        Card1.SetActive(true);
+        answerList.Add($"책의 첫부분을 읽었다.{ card_List[0]._name}를 획득합니다") ;
+       answer_Text[0].text = answerList[0] ;
         answer_Panel[0].SetActive(true); 
-        GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
-        BindEvent(Choice_1, (PointerEventData data) => { _inven.AcquireCard(card_List[0]); }, Define.UIEvent.Click);
-
-
+        //GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
+        BindEvent(Choice_1, (PointerEventData data) => { _inven.AcquireCard(card_List[0]); this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
+     
+       yield return new WaitForSeconds(0.2f) ;
       Card2.SetActive(true);
       answerList.Add($"책의 중간부분을 읽었다.{ card_List[1]._name}를 획득합니다") ;
+         answer_Text[1].text = answerList[1] ;
        answer_Panel[1].SetActive(true); 
-            GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
-        BindEvent(Choice_2, (PointerEventData data) => { _inven.AcquireCard(card_List[1]); }, Define.UIEvent.Click);
+          //  GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
+        BindEvent(Choice_2, (PointerEventData data) => { _inven.AcquireCard(card_List[1]);this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
 
-
+       yield return new WaitForSeconds(0.2f) ;
        Card3.SetActive(true);
        answerList.Add($"책의 마지막부분을 읽었다.{ card_List[2]._name}를 획득합니다") ;
          answer_Panel[2].SetActive(true); 
-         GameObject Choice_3 = GetObject((int)GameObjects.Choice3_Button).gameObject;
-        BindEvent(Choice_3, (PointerEventData data) => { _inven.AcquireCard(card_List[2]); }, Define.UIEvent.Click);
-
-
-     count = 2 ;
-     StartCoroutine(ChoiceCoroutine()) ; 
-   
+           answer_Text[2].text = answerList[2] ;
+         //GameObject Choice_3 = GetObject((int)GameObjects.Choice3_Button).gameObject;
+        BindEvent(Choice_3, (PointerEventData data) => { _inven.AcquireCard(card_List[2]);this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
   }
 
   public void CardImageSetting()
@@ -193,52 +226,6 @@ for (int i = 0; i < 3; i++)
    
   }
     
-
-    IEnumerator ChoiceCoroutine()
-   {
-       yield return new WaitForSeconds(0.2f) ;
-       StartCoroutine(TypingQuestion());
-        StartCoroutine(TypingAnswer_1());
-        if(count >=1)  StartCoroutine(TypingAnswer_2());
-       if(count >=2)  StartCoroutine(TypingAnswer_3());
-
-       yield return new WaitForSeconds(0.5f); 
-       
-   }
-
-   IEnumerator TypingQuestion()
-   {
-     for(int i=0; i< question.Length ; i++)
-     {
-       question_Text.text += question[i] ;
-       yield return waitTime ;
-     }
-   }
-   
-   IEnumerator TypingAnswer_1()
-   {
-     for(int i=0; i< answerList[0].Length ; i++)
-     {
-       answer_Text[0].text += answerList[0][i] ;
-       yield return waitTime ;
-     }
-   }
-    IEnumerator TypingAnswer_2()
-   {
-     for(int i=0; i< answerList[1].Length ; i++)
-     {
-       answer_Text[1].text += answerList[1][i] ;
-       yield return waitTime ;
-     }
-   }
-    IEnumerator TypingAnswer_3()
-   {
-     for(int i=0; i< answerList[2].Length ; i++)
-     {
-       answer_Text[2].text += answerList[2][i] ;
-       yield return waitTime ;
-     }
-   }
  
   public int GetResult()
   {

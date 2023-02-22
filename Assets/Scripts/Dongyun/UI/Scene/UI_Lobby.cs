@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class UI_Lobby : UI_Scene
+public class UI_Lobby : UI_Popup
 {
     
    // public GameObject SettingCanvas ;
@@ -24,7 +24,7 @@ public class UI_Lobby : UI_Scene
         Init();
      
 
-     	 Managers.Sound.Play("Prefabs/Sounds/LobbyBgm",Define.Sound.Bgm) ; 
+     	
 
         
 
@@ -33,7 +33,7 @@ public class UI_Lobby : UI_Scene
     }
 
     public override void Init()
-    {  //SettingCanvas.SetActive(false) ;
+    { 
         base.Init();
          Bind<GameObject>(typeof(GameObjects));
        GameObject Start = GetObject((int)GameObjects.GameStartButton).gameObject;
@@ -43,15 +43,13 @@ public class UI_Lobby : UI_Scene
        BindEvent(Start, (PointerEventData data) => { SceneManager.LoadScene(1); }, Define.UIEvent.Click);
        BindEvent(Setting,OnButtonClicked);  
        BindEvent(Exit, (PointerEventData data) => { Application.Quit(); }, Define.UIEvent.Click);
-	
-   
+	   
+        Managers.Sound.Clear();
+        Managers.Sound.Play("Prefabs/Sounds/LobbyBgm",Define.Sound.Bgm) ; 
        
 		
 
-		//GetButton((int)Buttons.PointButton).gameObject.BindEvent(OnButtonClicked);
-
-		//GameObject go = GetImage((int)Images.ItemIcon).gameObject;
-		//BindEvent(go, (PointerEventData data) => { go.transform.position = data.position; }, Define.UIEvent.Drag);
+		
 	}
 
   
@@ -59,8 +57,8 @@ public class UI_Lobby : UI_Scene
     public void OnButtonClicked(PointerEventData data)
     {
         
-       Managers.UI.ShowPopupUI<Ui_Setting>("SettingCanvas") ;
-     
+       Managers.UI.ShowPopupUI<UI_setting1>("UI_SettingCanvas") ;
+       
     }
 
 }

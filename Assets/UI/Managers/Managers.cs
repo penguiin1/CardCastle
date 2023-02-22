@@ -17,8 +17,11 @@ public class Managers : MonoBehaviour
     SoundManager _sound = new SoundManager();
     UIManager _ui = new UIManager();
 
+
+
     ResourceManager _resource = new ResourceManager() ; 
 
+  
     public static DataManager Data { get { return Instance._data; } }
       public static GameManagerEx Game { get { Init(); return s_gameManager; } }
     public static SoundManager Sound { get { return Instance._sound; } }

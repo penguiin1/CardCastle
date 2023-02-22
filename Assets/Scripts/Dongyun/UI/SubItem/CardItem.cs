@@ -20,4 +20,6 @@ public class CardItem : ScriptableObject
 
    public Sprite Card_Image ;
 
+
+
 }

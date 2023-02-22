@@ -7,6 +7,8 @@ public class Inventory : UI_Popup{
 
     public static bool inventoryActivated = false;
 
+    
+
 
     // 필요한 컴포넌트
     [SerializeField]
@@ -14,8 +16,13 @@ public class Inventory : UI_Popup{
     [SerializeField]
      GameObject go_SlotsParent;
 
+     public  List<CardItem> CurCard_list ;
+
     // 슬롯들.
     public Slot[] slots;
+     
+
+    //   Managers.Resource.Load<CardItem>($"Prefabs/Item/Card/{Lottery[i]}");
 
   
 
@@ -23,18 +30,26 @@ public class Inventory : UI_Popup{
     // Use this for initialization
     void Start()
     {   
-        slots = go_SlotsParent.GetComponentsInChildren<Slot>();
-        foreach(var slot in slots)
-        {
-            slot.gameObject.SetActive(false) ;
-        }
+       
         Init() ;
+        
+    }
+
+    void Update()
+    {
         
     }
  
     // Update is called once per frame
    public override void Init()
-   {
+   {     
+          slots = go_SlotsParent.GetComponentsInChildren<Slot>();
+        foreach(var slot in slots)
+        {
+            slot.gameObject.SetActive(false) ;
+        } 
+        
+       
           base.Init() ;
         
           
@@ -70,7 +85,12 @@ public class Inventory : UI_Popup{
                 {
                     if (slots[i].card.num == _card.num)
                     {  
+                        
                         slots[i].SetSlotCount(_count);
+                       
+                         CurCard_list.Add(_card) ;
+                         
+
                         return;
                     }
                 }
@@ -82,6 +102,8 @@ public class Inventory : UI_Popup{
             if (slots[i].card == null)
             { 
                 slots[i].AddCard(_card, _count);
+               CurCard_list.Add(_card) ;
+               
                 return;
             }
         }

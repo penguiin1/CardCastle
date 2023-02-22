@@ -14,6 +14,9 @@ public class ResourceManager
                 name = name.Substring(index + 1);
 
         }
+        else{
+            Debug.Log($"로드 실패{path}") ;
+        }
 
         return Resources.Load<T>(path);
     }

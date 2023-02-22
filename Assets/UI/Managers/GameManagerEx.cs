@@ -31,8 +31,8 @@ public class GameData
     //UI설정관련 -- 소리크기 값
 
     
-    public float SfxVolume =1.0f; 
-    public float BgmVolume =1.0f;
+    public float SfxVolume =0.5f; 
+    public float BgmVolume =0.5f;
 
 
 }

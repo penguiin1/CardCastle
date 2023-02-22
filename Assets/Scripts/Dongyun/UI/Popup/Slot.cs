@@ -22,17 +22,6 @@ public class Slot : UI_Popup
     private GameObject go_CountImage;
 
 
-    void start()
-    {
-      /*     EventTrigger eventTrigger = gameObject.AddComponent<EventTrigger>();
-      
-       EventTrigger.Entry clickevt  =new EventTrigger.Entry() ;
-       clickevt.eventID = EventTriggerType.PointerClick ; 
-       clickevt.callback.AddListener(SlotInfo) ;
-        eventTrigger.triggers.Add(clickevt); */
-         //  BindEvent(this.gameObject, SlotInfo, Define.UIEvent.Click);
-
-    }
 
   
     // 이미지의 투명도 조절.
