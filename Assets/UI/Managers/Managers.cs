@@ -15,11 +15,13 @@ public class Managers : MonoBehaviour
       private static GameManagerEx s_gameManager = new GameManagerEx();
     
     SoundManager _sound = new SoundManager();
+    
     UIManager _ui = new UIManager();
 
 
 
     ResourceManager _resource = new ResourceManager() ; 
+   TurnManager _turn = new TurnManager() ; 
 
   
     public static DataManager Data { get { return Instance._data; } }
@@ -27,12 +29,19 @@ public class Managers : MonoBehaviour
     public static SoundManager Sound { get { return Instance._sound; } }
     public static UIManager UI { get { return Instance._ui; } }
     public static ResourceManager Resource { get { return Instance._resource; } }
+
+     public static TurnManager Turn { get { return Instance._turn; } }
     #endregion
 
     private void start()
     {
         Init();
       
+    }
+
+    public void Update()
+    {
+        Turn.TurnUpdate() ;
     }
     static void Init()
     {
@@ -56,4 +65,6 @@ public class Managers : MonoBehaviour
      
         }
     }
+
+    
 }
