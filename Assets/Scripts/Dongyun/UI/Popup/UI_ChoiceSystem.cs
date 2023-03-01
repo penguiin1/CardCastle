@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,8 +24,13 @@ public class UI_ChoiceSystem : UI_Popup
     public GameObject Card2;
 
     public GameObject Card3;
-  
+     
+     
      public  List<CardItem> card_List;
+
+     
+  
+  
 
      public Dungeon _Dungeon ;
       
@@ -70,56 +76,94 @@ public class UI_ChoiceSystem : UI_Popup
    
 	}
 
-  public void ShowRoomChoice() 
+  public void ShowRoomChoice(Dungeon _dungeon) 
   { 
     TextClear();
      question_Text.alignment = TextAnchor.MiddleCenter;
     
     choiceIng = true ;   
-   
+     answer_Panel[0].SetActive(false) ;
+    answer_Panel[1].SetActive(false) ;
     answer_Panel[2].SetActive(false) ;
     Card1.SetActive(false);
     Card2.SetActive(false);
      Card3.SetActive(false);
-
-    List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().RoomQuestion ;
-    _Dungeon = Managers.Resource.Load<Dungeon>("Prefabs/Item/Dungeon/1");
    
-    question = this.gameObject.GetOrAddComponent<Choice>().RoomQuestion[Random.Range(0,questionlist.Count)] ; 
-    question_Text.text = question ;
+   
+    
+    question_Text.text = _dungeon.Dungeon_Explain;
       result = 0 ;
       
 
      
-      StartCoroutine(RoomTextSetting()) ;
+      StartCoroutine(RoomTextSetting(_dungeon)) ;
 
        
        
    }
 
-    IEnumerator RoomTextSetting()
+    IEnumerator RoomTextSetting(Dungeon _dungeon)
   {    
-      List<string> answer_enter =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_enter ;
-      List<string> answer_quit =this.gameObject.GetOrAddComponent<Choice>().RoomAnswer_quit ;
-         yield return new WaitForSeconds(0.2f) ;
-       
-           answerList.Add(answer_enter[Random.Range(0,answer_enter.Count)]) ;
-       answer_Text[0].text = answerList[0] ;
-        answer_Panel[0].SetActive(true); 
-        //GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
-        BindEvent(Choice_1, (PointerEventData data) => {_Player.transform.position = _Dungeon.spawnpos.position;this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
-     
-       yield return new WaitForSeconds(0.2f) ;
-
-      answerList.Add(answer_quit[Random.Range(0,answer_quit.Count)]) ;
-         answer_Text[1].text = answerList[1] ;
-       answer_Panel[1].SetActive(true); 
-          //  GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
-        BindEvent(Choice_2, (PointerEventData data) => { this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
-
-       
+    foreach(string _answer in _dungeon.Room_AnswerList)
+    {
+        answerList.Add(_answer) ;
+    }
       
-  }
+         
+       
+     for(int i=0 ; i<_dungeon.Room_AnswerList.Count; i++)
+     {
+         answer_Panel[i].SetActive(true);
+         answer_Text[i].text = answerList[i] ;
+
+         yield return new WaitForSeconds(0.2f) ;
+
+     }
+
+     
+   }
+  #region DungeonBtn 관리
+   public void Dun1_Btn()
+   {
+       // 버튼 설정 필요
+        //GameObject  Choice_1 = GetObject((int)GameObjects.Choice1_Button).gameObject;
+       // BindEvent(Choice_1, (PointerEventData data) => {_Player.transform.position = _Dungeon.spawnpos.position;this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
+       //  GameObject Choice_2 = GetObject((int)GameObjects.Choice2_Button).gameObject;
+        //BindEvent(Choice_2, (PointerEventData data) => { this.gameObject.SetActive(false) ; }, Define.UIEvent.Click);
+   }
+     public void Dun2_Btn()
+     {
+
+     }
+
+       public void Dun3_Btn()
+     {
+      
+     }
+
+        public void Dun4_Btn()
+     {
+      
+     }
+
+        public void Dun5_Btn()
+     {
+      
+     }
+
+        public void Dun6_Btn()
+     {
+      
+     }
+
+        public void Dun7_Btn()
+     {
+      
+     }
+    
+
+    #endregion
+
     public void ShowCardChoice( )  
   { 
     TextClear();
@@ -130,8 +174,8 @@ public class UI_ChoiceSystem : UI_Popup
     
 
       result = 0 ;
-     List<string> questionlist =this.gameObject.GetOrAddComponent<Choice>().CardQuestion ;
-     question = questionlist[Random.Range(0,questionlist.Count)] ;
+    
+     question = "나는 방에 들어서자, 그곳이 몬스터들이 지키고있는 보물창고라는 사실을 알아챘다.귀중한 유물 옆에서 검을 들고 노려보고있는 해골들을 보았기 때문이다.그들은 유물을 지키기위해 그곳을 떠날것같지 않았다. 나의 성공과 관련해 저 유물은" ;
      question_Text.alignment = TextAnchor.UpperCenter;
      question_Text.text = question ;
     	
@@ -148,6 +192,7 @@ public class UI_ChoiceSystem : UI_Popup
 
   IEnumerator CardTextSetting()
   {   
+        
          yield return new WaitForSeconds(0.2f) ;
         Card1.SetActive(true);
         answerList.Add($"책의 첫부분을 읽었다.{ card_List[0]._name}를 획득합니다") ;
@@ -221,7 +266,7 @@ for (int i = 0; i < 3; i++)
         }
   }
 
-    public void ShowWeaponChoice(Choice _choice)  //미완성
+    public void ShowWeaponChoice( )  //미완성
   {    return ;
    
   }

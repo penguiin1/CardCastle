@@ -20,8 +20,39 @@ public class Define
         Click,
         Drag,
     }
+    
 
-  
+    public enum PlayerState
+    {
+       Moving,
+       Attack,
+
+       DoorChocing,
+
+       NpcChoicing,
+
+       CardChoicing,
+
+       WeaponChoicing, 
+    
+    }
+   
+
+     public enum DungeonType
+     {
+        Battle,
+        NonBattle,
+
+     }
+
+        public enum DungeonChoiceAppear
+     {
+        Enter,
+        After,
+
+        None,
+
+     }
 
 
     

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -8,6 +8,7 @@ public class GameSceneUI : UI_Popup
 { 
   
   public GameObject Inven ;
+  public Inventory InvenBase ;
   public GameObject ChoiceSystem ; 
 
   public GameObject On1 ;
@@ -20,7 +21,8 @@ public class GameSceneUI : UI_Popup
   public GameObject Player; 
   public PlayerInput _Player ;
  
- public List<CardItem> CurCardList ;
+
+
   public CardSelector selector1;
   public CardSelector selector2;
   public CardSelector selector3;
@@ -36,11 +38,17 @@ public class GameSceneUI : UI_Popup
       
    }
     void Start()
-    {
-        Init() ;
+    {   
+       
+          Init() ;
+      
     }
 
     void Update()
+    {
+       
+    }
+    void LateUpdate()
     {
         if(selector1._Card ==null) CardSelectSetting_1() ;
          if(selector2._Card ==null) CardSelectSetting_2() ;
@@ -123,7 +131,7 @@ public class GameSceneUI : UI_Popup
         {   Debug.Log("들어갈꺼야?!");
             ChoiceSystem.SetActive(true) ;
             UI_ChoiceSystem _choice  =  ChoiceSystem.GetComponent<UI_ChoiceSystem>() ;
-            _choice.ShowRoomChoice() ;
+            //_choice.ShowRoomChoice() ;
             return ;
            
         }
@@ -140,62 +148,87 @@ public class GameSceneUI : UI_Popup
         }
     }
 
-    public void CardSelectSetting_1()
-    {
-            CurCardList  = Util.FindChild(Inven,"Inventory_Base").GetComponent<Inventory>().CurCard_list ;
-            CardItem SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-            if(selector2._Card!=null &&selector3._Card!=null )
-            {
-                while(true)
-               { 
-                  SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-                  if(SelectedCard.num !=selector2._Card.num &&SelectedCard.num !=selector3._Card.num )
-                  {
-                    selector1.Setting(SelectedCard) ;
-                    break ;
-                   }
-                }
-            }
-            else   selector1.Setting(SelectedCard) ;
+    public void CardSelectSetting_1()  //중복처리 해결 x
+    {       int num = Random.Range(0, InvenBase.CurCard_list.Count);
+          
+            CardItem SelectedCard =  InvenBase.CurCard_list[num] ;
+            InvenBase.CurCard_list.RemoveAt(num) ; 
+
+            InvenBase.UsedCard.Add(SelectedCard) ;
+            selector1.Setting(SelectedCard) ;
+            int _count = 0 ;
+           foreach(var _card in InvenBase.CurCard_list)
+           {
+               if(_card.num == SelectedCard.num)
+               {
+                _count ++ ;
+               }
+
+           }
+           if(_count ==0)
+           {
+              foreach(var _slot in InvenBase.slots)
+              {
+                 if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
+              }
+           }
+
+            
          
     }
       public void CardSelectSetting_2()
     {
-            CurCardList  = Util.FindChild(Inven,"Inventory_Base").GetComponent<Inventory>().CurCard_list ;
+              int num = Random.Range(0, InvenBase.CurCard_list.Count);
+          
+            CardItem SelectedCard =  InvenBase.CurCard_list[num] ;
+            InvenBase.CurCard_list.RemoveAt(num) ; 
 
-            CardItem SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-            if(selector1._Card!=null &&selector3._Card!=null )
-            {
-                while(true)
-               { 
-                  SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-                  if(SelectedCard.num !=selector1._Card.num &&SelectedCard.num !=selector3._Card.num )
-                  {
-                    selector2.Setting(SelectedCard) ;
-                    break ;
-                   }
-                }
-            }
-            else   selector2.Setting(SelectedCard) ;
+            InvenBase.UsedCard.Add(SelectedCard) ;
+            selector2.Setting(SelectedCard) ;
+            int _count = 0 ;
+           foreach(var _card in InvenBase.CurCard_list)
+           {
+               if(_card.num == SelectedCard.num)
+               {
+                _count ++ ;
+               }
+
+           }
+           if(_count ==0)
+           {
+              foreach(var _slot in InvenBase.slots)
+              {
+                 if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
+              }
+           }
+             
     }
 
       public void CardSelectSetting_3()
     {
-            CurCardList  = Util.FindChild(Inven,"Inventory_Base").GetComponent<Inventory>().CurCard_list ;
-          CardItem SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-            if(selector1._Card!=null &&selector2._Card!=null )
-            {
-                while(true)
-               { 
-                  SelectedCard = CurCardList[Random.Range(0, CurCardList.Count+1)] ;
-                  if(SelectedCard.num !=selector1._Card.num &&SelectedCard.num !=selector2._Card.num )
-                  {
-                    selector3.Setting(SelectedCard) ;
-                    break ;
-                   }
-                }
-            }
-            else   selector3.Setting(SelectedCard) ;
+            int num = Random.Range(0, InvenBase.CurCard_list.Count);
+          
+            CardItem SelectedCard =  InvenBase.CurCard_list[num] ;
+            InvenBase.CurCard_list.RemoveAt(num) ; 
+
+            InvenBase.UsedCard.Add(SelectedCard) ;
+            selector3.Setting(SelectedCard) ;
+            int _count = 0 ;
+           foreach(var _card in InvenBase.CurCard_list)
+           {
+               if(_card.num == SelectedCard.num)
+               {
+                _count ++ ;
+               }
+
+           }
+           if(_count ==0)
+           {
+              foreach(var _slot in InvenBase.slots)
+              {
+                 if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
+              }
+           }
     }
 
     

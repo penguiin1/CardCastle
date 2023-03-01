@@ -6,7 +6,22 @@ using UnityEngine;
 public class Dungeon : ScriptableObject
 {
     public int Dungeon_num ;
-    
-    public Transform spawnpos ;
+
+    public string Dungeon_name ;
+
+    public Define.DungeonType  _type ;
+
+   public Define.DungeonChoiceAppear _selector ;
+
+    public string Dungeon_Explain ;
+
+    public List<string> Room_AnswerList ;
+
+
+
+
+
+
+   public Transform spawnpos ;
     
 }

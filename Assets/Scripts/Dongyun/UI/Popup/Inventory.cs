@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -16,43 +18,65 @@ public class Inventory : UI_Popup{
     [SerializeField]
      GameObject go_SlotsParent;
 
-     public  List<CardItem> CurCard_list ;
+   
+    public List<CardItem> CurCard_list ;
 
+    public List<CardItem> UsedCard ;
     // 슬롯들.
+
     public Slot[] slots;
      
 
-    //   Managers.Resource.Load<CardItem>($"Prefabs/Item/Card/{Lottery[i]}");
-
-  
-
-
-    // Use this for initialization
+   void Awake()
+   {
+      
+   }
     void Start()
     {   
-       
+      
         Init() ;
-        
+
+   
     }
 
     void Update()
     {
         
+        if(UsedCard.Count ==12)
+        {
+             foreach(var _card in UsedCard)
+             {
+                CurCard_list.Add(_card) ;
+             }
+             UsedCard.Clear() ;
+        }
     }
  
     // Update is called once per frame
    public override void Init()
-   {     
+   {    
+       
+       
           slots = go_SlotsParent.GetComponentsInChildren<Slot>();
         foreach(var slot in slots)
         {
             slot.gameObject.SetActive(false) ;
         } 
         
+        StartCardSetting();
        
           base.Init() ;
         
           
+   }
+
+   public void StartCardSetting()
+   {  List<CardItem> StartCardlist = CurCard_list.ToList() ;
+      for(int i=0 ; i<StartCardlist.Count; i++)
+      {
+         AcquireCard(StartCardlist[i]) ;
+         CurCard_list.RemoveAt(CurCard_list.Count-1);
+      }
    }
     public void TryOpenInventory( )
     {
@@ -87,9 +111,10 @@ public class Inventory : UI_Popup{
                     {  
                         
                         slots[i].SetSlotCount(_count);
+                        slots[i].LockImage.SetActive(false) ;
                        
                          CurCard_list.Add(_card) ;
-                         
+
 
                         return;
                     }
@@ -102,8 +127,8 @@ public class Inventory : UI_Popup{
             if (slots[i].card == null)
             { 
                 slots[i].AddCard(_card, _count);
-               CurCard_list.Add(_card) ;
-               
+                CurCard_list.Add(_card) ;
+                slots[i].LockImage.SetActive(false) ;
                 return;
             }
         }

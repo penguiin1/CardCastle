@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerInput : MonoBehaviour
 {
     public  bool  indoor  ;
+
+    public bool outdoor ;
     public bool cardscroll  ; 
 
     public CardItem SelectedCard ;
@@ -36,6 +38,11 @@ void OnTriggerStay2D(Collider2D other)
         {   
            indoor = true ;
         }
+
+       if(other.CompareTag("DungeonDoor"))
+        {   
+           outdoor = true ;
+        }   
     if(other.CompareTag("Scroll") )
     {
          cardscroll = true ; 
@@ -46,6 +53,8 @@ void OnTriggerExit2D(Collider2D other)
 {    Debug.Log("콜라이더 나감!");
      
     indoor = false ;
+
+    outdoor = false ;
     
     cardscroll = false ; 
     

@@ -21,9 +21,8 @@ public class Slot : UI_Popup
     [SerializeField]
     private GameObject go_CountImage;
 
+    public GameObject LockImage;
 
-
-  
     // 이미지의 투명도 조절.
     private void SetColor(float _alpha)
     {

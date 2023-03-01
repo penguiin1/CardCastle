@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b0a96409a7a29489f11be2569ccaaf, type: 3}
+  m_Name: 5
+  m_EditorClassIdentifier: 
+  Dungeon_num: 5
+  Dungeon_name: "\uBAA8\uD5D8\uAC00\uC758 \uD754\uC801(1)"
+  _type: 1
+  _selector: 0
+  Dungeon_Explain: "< \uB2F9\uC2E0\uC740 \uACE0\uC694\uD55C \uBC29\uC5D0\uC11C \uB369\uADF8\uB7EC\uB2C8
+    \uB0A8\uC544\uC788\uB294 \uC77C\uAE30\uC7A5\uC744 \uBC1C\uACAC\uD55C\uB2E4. \uADF8\uAC83\uC740
+    \uC131\uC5D0 \uB4E4\uC5B4\uC654\uB358 \uC5B4\uB290 \uD55C \uBAA8\uD5D8\uC790\uC758
+    \uC77C\uAE30\uC7A5\uC774\uC5C8\uB2E4. \uB2F9\uC2E0\uC740 \uD638\uAE30\uC2EC\uC5D0
+    \uD729\uC2F8\uC600\uACE0 \uADF8\uAC83\uC744 \uC77D\uC744\uAE4C \uB9DD\uC124\uC778\uB2E4
+    >"
+  Room_AnswerList:
+  - "< \uC77C\uAE30\uB97C \uCC59\uACA8\uC11C \uC77D\uB294\uB2E4. \u2018\uC77C\uAE30\u2019\uB97C
+    \uD68D\uB4DD\uD569\uB2C8\uB2E4 >"
+  - "< \uD734\uC2DD\uC744 \uCDE8\uD55C\uB2E4. \uCE74\uB4DC\uB97C \uAC15\uD654\uD558\uAC70\uB098
+    \uC0AD\uC81C\uD569\uB2C8\uB2E4. >"
+  - "< \uD734\uC2DD\uC744 \uCDE8\uD55C\uB2E4. \uCE74\uB4DC\uB97C \uAC15\uD654\uD558\uAC70\uB098
+    \uC0AD\uC81C\uD569\uB2C8\uB2E4. >"
+  spawnpos: {fileID: 3207484269673723092, guid: 8d8b36f85dc17c94a910caa7bc9afd17,
+    type: 3}

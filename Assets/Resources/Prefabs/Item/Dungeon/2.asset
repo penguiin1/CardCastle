@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 91b0a96409a7a29489f11be2569ccaaf, type: 3}
-  m_Name: 1
+  m_Name: 2
   m_EditorClassIdentifier: 
-  Dungeon_num: 1
+  Dungeon_num: 2
   Dungeon_name: "\uAE30\uC2B5!"
   _type: 0
   _selector: 1

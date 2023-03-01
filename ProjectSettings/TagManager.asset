@@ -8,6 +8,7 @@ TagManager:
   - Scroll
   - Weapon
   - Soul
+  - DungeonDoor
   layers:
   - Default
   - TransparentFX
