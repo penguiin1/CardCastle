@@ -19,7 +19,7 @@ public class GameSceneUI : UI_Popup
   public bool CardChoicing = false ;
   
   public GameObject Player; 
-  public PlayerInput _Player ;
+  public Player _Player ;
  
 
 
@@ -79,9 +79,9 @@ public class GameSceneUI : UI_Popup
         BindEvent(Setting,OnbuttonSetting,Define.UIEvent.Click);  
        BindEvent(ActButton,actbtncontroller,Define.UIEvent.Click);  
         BindEvent(Inventory,invenopen,Define.UIEvent.Click);  
-          BindEvent(CardSelect1,(PointerEventData date)=>{if(CardChoicing==false){On1.SetActive(true); On2.SetActive(false);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
-          BindEvent(CardSelect2,(PointerEventData date)=>{if(CardChoicing==false){On1.SetActive(false); On2.SetActive(true);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
-          BindEvent(CardSelect3,(PointerEventData date)=>{if(CardChoicing==false){On1.SetActive(false); On2.SetActive(false);On3.SetActive(true);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
+          BindEvent(CardSelect1,(PointerEventData date)=>{if(CardChoicing==false){ _Player.SelectedCard=selector1._Card;On1.SetActive(true); On2.SetActive(false);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
+          BindEvent(CardSelect2,(PointerEventData date)=>{if(CardChoicing==false){_Player.SelectedCard=selector2._Card;On1.SetActive(false); On2.SetActive(true);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
+          BindEvent(CardSelect3,(PointerEventData date)=>{if(CardChoicing==false){_Player.SelectedCard=selector3._Card;On1.SetActive(false); On2.SetActive(false);On3.SetActive(true);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
         
         Managers.Sound.Clear();
         Managers.Sound.Play("Prefabs/Sounds/BGM_Ingame",Define.Sound.Bgm) ; 
@@ -169,6 +169,7 @@ public class GameSceneUI : UI_Popup
            {
               foreach(var _slot in InvenBase.slots)
               {
+                   if(_slot==null) continue ;                 
                  if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
               }
            }
@@ -197,7 +198,7 @@ public class GameSceneUI : UI_Popup
            if(_count ==0)
            {
               foreach(var _slot in InvenBase.slots)
-              {
+              {    if(_slot==null) continue ;
                  if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
               }
            }
@@ -226,6 +227,7 @@ public class GameSceneUI : UI_Popup
            {
               foreach(var _slot in InvenBase.slots)
               {
+                 if(_slot==null) continue ;
                  if(_slot.card.num == SelectedCard.num) _slot.LockImage.SetActive(true) ; 
               }
            }

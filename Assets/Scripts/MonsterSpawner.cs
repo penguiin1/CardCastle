@@ -13,7 +13,8 @@ public class MonsterSpawner : MonoBehaviour
 
     private void Start()
     {
-        ///CreateMonsterRight();  // 게임 시작할 때 몬스터 생성 (오른쪽)
+        CreateMonsterRight();  // 게임 시작할 때 몬스터 생성 (오른쪽)
+        CreateMonsterLeft() ;
     }
 
     private void Update()

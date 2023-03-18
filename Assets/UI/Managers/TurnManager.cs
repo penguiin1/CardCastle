@@ -25,6 +25,11 @@ public class TurnManager : MonoBehaviour
 
     // 현재 맵 번호
     public int current_map;
+    
+  public void Update()
+  {
+    TurnUpdate() ;
+  }
 
  
     public void TurnUpdate()
@@ -61,7 +66,7 @@ public class TurnManager : MonoBehaviour
         // 플레이어와 몬스터의 만남 여부 설정
         float player_pos = player.transform.position.x;
         foreach (Monster monster in spawner.monsters_left)
-        {
+        {   
             float distance = Mathf.Abs(player_pos - monster.transform.position.x);
             if (distance == 2.5f)
             {

@@ -4,10 +4,10 @@ using UnityEngine.AI;
 
 public class Monster : LivingEntity
 {
-
+       public TurnManager _Turn ;
     private LivingEntity targetEntity;
     public float damage = 5f;
-
+   
    Direction direction;
 
     public bool is_meet_player = false;
@@ -33,7 +33,9 @@ public class Monster : LivingEntity
 
     private void Start()
     {
-        float player_pos = Managers.Turn.player.transform.position.x;
+        _Turn = GameObject.FindObjectOfType<TurnManager>() ;
+        float player_pos = _Turn.player.transform.position.x;
+        
 
         if (transform.position.x < player_pos)
             direction = Direction.Left;
@@ -51,9 +53,9 @@ public class Monster : LivingEntity
         base.Die();
 
         if (direction== Direction.Left) 
-           Managers.Turn.player.is_meet_left = false;
+           _Turn.player.is_meet_left = false;
         else
-            Managers.Turn.player.is_meet_right = false;
+            _Turn.player.is_meet_right = false;
     }
 
     public override void OnDamage(float damage)
@@ -73,7 +75,7 @@ public class Monster : LivingEntity
 
             if (direction == Direction.Left)
             {
-                foreach (Monster monster in Managers.Turn.spawner.monsters_left)  // 왼쪽에 몬스터가 있으면 움직이고, 아니면 움직이지 않음
+                foreach (Monster monster in _Turn.spawner.monsters_left)  // 왼쪽에 몬스터가 있으면 움직이고, 아니면 움직이지 않음
                 {
                     if (monster == this)  // 자기 자신은 제외
                         continue;
@@ -90,7 +92,7 @@ public class Monster : LivingEntity
             }
             else
             {
-                foreach (Monster monster in Managers.Turn.spawner.monsters_right)  // 왼쪽에 몬스터가 있으면 움직이고, 아니면 움직이지 않음
+                foreach (Monster monster in _Turn.spawner.monsters_right)  // 왼쪽에 몬스터가 있으면 움직이고, 아니면 움직이지 않음
                 {
                     if (monster == this)  // 자기 자신은 제외
                         continue;
@@ -118,9 +120,9 @@ public class Monster : LivingEntity
     public void EndTurn()
     {
         if (direction == Direction.Left) 
-            Managers.Turn.MonsterControlLeft();
+            _Turn.MonsterControlLeft();
         else
-            Managers.Turn.MonsterControlRight(); 
+            _Turn.MonsterControlRight(); 
     }
 
     void Move()
@@ -135,7 +137,7 @@ public class Monster : LivingEntity
 
     void AttackPlayer()
     {
-        Managers.Turn.player.OnDamage(1f);
+        _Turn.player.OnDamage(1f);
 
         EndTurn();
     }

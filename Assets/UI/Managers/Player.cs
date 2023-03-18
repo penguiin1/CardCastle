@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +9,15 @@ public class Player : LivingEntity
     public bool is_meet_left = false;  // 몬스터를 만났는지 여부 (왼쪽)
     public Monster meet_monster_right = null;  // 만난 몬스터 객체 (오른쪽)
     public Monster meet_monster_left = null;  // 만난 몬스터 객체 (왼쪽)
+   
+    public TurnManager _Turn ;
 
+     public  bool  indoor  ;
+
+    public bool outdoor ;
+    public bool cardscroll  ; 
+
+    public CardItem SelectedCard ;
     // 조작 버튼
     public Button left_btn;
     public Button right_btn;
@@ -21,6 +29,7 @@ public class Player : LivingEntity
     // Start is called before the first frame update
     void Start()
     {
+        _Turn = GameObject.FindObjectOfType<TurnManager>() ;
         act_btn.interactable = false;
     }
 
@@ -66,7 +75,7 @@ public class Player : LivingEntity
             meet_monster_left.OnDamage(50f);
         if (is_meet_right)
             meet_monster_right.OnDamage(50f);
-
+        
         EndTurn();
     }
 
@@ -107,22 +116,40 @@ public class Player : LivingEntity
         right_btn.interactable = false;
         attack_btn.interactable = false;
 
-        GameManager.instance.isMonsterTurnStart = true;
+        _Turn.isMonsterTurnStart = true;
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.name == "Door")  // 문과의 충돌
-        {
-            act_btn.interactable = true;
-        }
-    }
+   void OnTriggerEnter2D(Collider2D other)
+{
+    Debug.Log("충돌 발생!");
+} 
 
-    private void OnCollisionExit2D(Collision2D other)
-    {
-        if (other.gameObject.name == "Door")  // 문과의 충돌
-        {
-            act_btn.interactable = false;
+
+void OnTriggerStay2D(Collider2D other)
+{    Debug.Log("문충돌!");
+     if(other.CompareTag("Door"))
+        {   
+           indoor = true ;
         }
+
+       if(other.CompareTag("DungeonDoor"))
+        {   
+           outdoor = true ;
+        }   
+    if(other.CompareTag("Scroll") )
+    {
+         cardscroll = true ; 
     }
+} 
+
+void OnTriggerExit2D(Collider2D other)
+{    Debug.Log("콜라이더 나감!");
+     
+    indoor = false ;
+
+    outdoor = false ;
+    
+    cardscroll = false ; 
+    
+} 
 }

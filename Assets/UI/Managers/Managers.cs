@@ -4,11 +4,15 @@ using UnityEngine;
 
 public class Managers : MonoBehaviour
 {
+    
+   
     static Managers s_instance;
     static Managers Instance { get { if (!gameStart) Init(); return s_instance; } }
 
     static Object _lock = new Object();
     static bool gameStart = false;
+
+    
 
     #region Instances
     DataManager _data = new DataManager();
@@ -17,8 +21,11 @@ public class Managers : MonoBehaviour
     SoundManager _sound = new SoundManager();
     
     UIManager _ui = new UIManager();
+   
+    public  GameObject player ;
+    public GameObject Monsterspawn ;
 
-
+    
 
     ResourceManager _resource = new ResourceManager() ; 
    TurnManager _turn = new TurnManager() ; 
@@ -35,12 +42,17 @@ public class Managers : MonoBehaviour
 
     private void start()
     {
+       
         Init();
+        
       
     }
 
+    
+
     public void Update()
     {
+       
         Turn.TurnUpdate() ;
     }
     static void Init()
@@ -60,10 +72,14 @@ public class Managers : MonoBehaviour
                 s_instance = go.GetComponent<Managers>();
                  s_instance._data.Init();
                    s_instance._sound.Init();
-
+                  
             }
      
         }
+         Instance.player = GameObject.FindGameObjectWithTag("Player") ;
+         Instance._turn.player = Instance.player.GetComponent<Player>() ;
+         Instance.Monsterspawn = GameObject.Find("MonsterSpawner") ;
+         Instance._turn.spawner = Instance.player.GetComponent<MonsterSpawner>() ;
     }
 
     
