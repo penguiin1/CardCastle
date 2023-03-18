@@ -220,9 +220,11 @@ public class TurnManager : MonoBehaviour
             if (player_pos - monster_pos == 2.5f * 4)
             {
                 is_monster_left = true;
-                warningLeft.transform.position = new Vector2(player_pos - 2.5f * 3, -0.5f);
+               
+               warningLeft.transform.position = new Vector2(player_pos - 2.5f * 3, -0.5f);
                 break;
             }
+        
         }
         if (!is_monster_left)
         {
@@ -237,9 +239,11 @@ public class TurnManager : MonoBehaviour
             if (monster_pos - player_pos == 2.5f * 4)
             {
                 is_monster_right = true;
+                 
                 warningRight.transform.position = new Vector2(player_pos + 2.5f * 3, -0.5f);
                 break;
             }
+               
         }
         if (!is_monster_right)
         {

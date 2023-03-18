@@ -77,7 +77,7 @@ public class GameSceneUI : UI_Popup
        
       
         BindEvent(Setting,OnbuttonSetting,Define.UIEvent.Click);  
-       BindEvent(ActButton,actbtncontroller,Define.UIEvent.Click);  
+       //BindEvent(ActButton,actbtncontroller,Define.UIEvent.Click);  
         BindEvent(Inventory,invenopen,Define.UIEvent.Click);  
           BindEvent(CardSelect1,(PointerEventData date)=>{if(CardChoicing==false){ _Player.SelectedCard=selector1._Card;On1.SetActive(true); On2.SetActive(false);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
           BindEvent(CardSelect2,(PointerEventData date)=>{if(CardChoicing==false){_Player.SelectedCard=selector2._Card;On1.SetActive(false); On2.SetActive(true);On3.SetActive(false);CardChoicing =true;}else{On1.SetActive(false); On2.SetActive(false);On3.SetActive(false);CardChoicing =false;}} ,Define.UIEvent.Click);  
