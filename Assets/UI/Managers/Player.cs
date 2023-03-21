@@ -21,7 +21,6 @@ public class Player : LivingEntity
     // 조작 버튼
     public Button left_btn;
     public Button right_btn;
-    public Button attack_btn;
     public Button act_btn;
 
     bool is_meet_door = false;  // 플레이어가 문을 만났는지 여부
@@ -92,19 +91,19 @@ public class Player : LivingEntity
         {
             left_btn.interactable = true;
             right_btn.interactable = true;
-            attack_btn.interactable = true;
+            act_btn.interactable = true;
         }
         else if (is_meet_right || is_meet_left)  // 오른쪽이나 왼쪽 둘 중 하나라도 만났을 경우
         {
             left_btn.interactable = false;
             right_btn.interactable = false;
-            attack_btn.interactable = true;
+            act_btn.interactable = true;
         }
         else  // 몬스터를 아예 만나지 않았을 경우
         {
             left_btn.interactable = true;
             right_btn.interactable = true;
-            attack_btn.interactable = false;
+            act_btn.interactable = false;
         }
 
         
@@ -114,7 +113,7 @@ public class Player : LivingEntity
     {
         left_btn.interactable = false;
         right_btn.interactable = false;
-        attack_btn.interactable = false;
+        act_btn.interactable = false;
 
         _Turn.isMonsterTurnStart = true;
     }

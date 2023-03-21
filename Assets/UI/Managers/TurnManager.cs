@@ -11,7 +11,7 @@ public class TurnManager : MonoBehaviour
     public bool isPlayerTurnStart = true;
     public bool isMonsterTurnStart = false;
 
-    public int monster_create_prob = 40;  // 몬스터 생성 확률 (백분율)
+    public int monster_create_prob;  // 몬스터 생성 확률 (0~100)
 
     // 턴 넘기기 용 변수
     int monsterCountRight = 0;  // 턴이 끝난 몬스터의 수
@@ -23,32 +23,49 @@ public class TurnManager : MonoBehaviour
     public GameObject warningLeft;
     public GameObject warningRight;
 
-    // 현재 맵 번호
-    public int current_map;
+    string currentTurn;
+
+    public void Start()
+    {
+        monster_create_prob = 20;  // 몬스터 생성 확률 설정
+    }
     
-  public void Update()
-  {
-    TurnUpdate() ;
-  }
+    public void Update()
+    {
+        TurnUpdate() ;
+    }
 
  
     public void TurnUpdate()
     {
-        if (isPlayerTurnStart || isMonsterTurnStart)
+
+        if (isPlayerTurnStart)
+        {
+            isPlayerTurnStart = false;
+            currentTurn = "player";
             TurnControl();
+        }
+
+        if (isMonsterTurnStart)
+        {
+            isMonsterTurnStart = false;
+            currentTurn = "monster";
+            TurnControl();
+        }
     }
 
     
     public void TurnControl()
     {
-        if (isMonsterTurnStart)  // 몬스터의 턴이 시작될 때, 몬스터 스폰 & 리스트에서 몬스터 제거
+        if (currentTurn == "monster")  // 몬스터의 턴이 시작될 때, 몬스터 스폰 & 리스트에서 몬스터 제거
         {
             // 죽은 몬스터 리스트에서 삭제
             foreach (Monster monster in spawner.monsters_left)
             {
                 if (monster.dead)
                 {
-                    spawner.monsters_left.Remove(monster);
+                    spawner.monsters_left.Remove(monster);  // 리스트에서 제거
+                    Destroy(monster.gameObject);  // 몬스터 게임오브젝트 파괴
                     break;  // 몬스터 1개만 리스트에서 지워도 되므로 반복문을 빠져나옴
                 }
             }
@@ -58,6 +75,7 @@ public class TurnManager : MonoBehaviour
                 if (monster.dead)
                 {
                     spawner.monsters_right.Remove(monster);
+                    Destroy(monster.gameObject);
                     break;
                 }
             }
@@ -87,18 +105,14 @@ public class TurnManager : MonoBehaviour
             }
         }
 
-        if (isPlayerTurnStart)
+        if (currentTurn == "player")
         {
-            isPlayerTurnStart = false;
-
             setWarning();
 
             player.StartTurn();
         }
         else  // 플레이어의 턴이 끝나면 여기로 들어옴
         {
-            isMonsterTurnStart = false;
-
             setWarning();
 
             if ((spawner.monsters_left.Count == 0) && (spawner.monsters_right.Count == 0))  // 몬스터가 하나도 없는 경우
@@ -172,7 +186,7 @@ public class TurnManager : MonoBehaviour
         // 스포너 위치에 몬스터가 존재하는지 검사
         // 왼쪽
         bool spawner_monster_exist = false;  // 스포너 위치에 몬스터가 존재하는지 여부
-        float current_spawn_point = player.transform.position.x + 10f;
+        float current_spawn_point = player.transform.position.x - 10f;
         foreach (Monster monster in spawner.monsters_left)
         {
             float monster_pos = monster.transform.position.x;
@@ -189,7 +203,7 @@ public class TurnManager : MonoBehaviour
 
         // 오른쪽
         spawner_monster_exist = false;
-        current_spawn_point = player.transform.position.x - 10f;
+        current_spawn_point = player.transform.position.x + 10f;
         foreach (Monster monster in spawner.monsters_right)
         {
             float monster_pos = monster.transform.position.x;
@@ -220,15 +234,15 @@ public class TurnManager : MonoBehaviour
             if (player_pos - monster_pos == 2.5f * 4)
             {
                 is_monster_left = true;
-               
-               warningLeft.transform.position = new Vector2(player_pos - 2.5f * 3, -0.5f);
+
+                warningLeft.SetActive(true);
                 break;
             }
         
         }
         if (!is_monster_left)
         {
-            warningLeft.transform.position = new Vector2(0, 24);
+            warningLeft.SetActive(false);
         }
 
         // 오른쪽
@@ -239,15 +253,15 @@ public class TurnManager : MonoBehaviour
             if (monster_pos - player_pos == 2.5f * 4)
             {
                 is_monster_right = true;
-                 
-                warningRight.transform.position = new Vector2(player_pos + 2.5f * 3, -0.5f);
+
+                warningRight.SetActive(true);
                 break;
             }
                
         }
         if (!is_monster_right)
         {
-            warningRight.transform.position = new Vector2(0, 20);
+            warningRight.SetActive(false);
         }
     }
 }
