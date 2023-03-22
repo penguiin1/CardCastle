@@ -41,12 +41,12 @@ public class Player : LivingEntity
     {
         if (is_meet_right && is_meet_left)
         {
-            GetComponent<SpriteRenderer>().flipX = false;
+            GetComponent<SpriteRenderer>().flipX = true;
         }
         else
         {
             transform.Translate(2.5f, 0, 0);
-            GetComponent<SpriteRenderer>().flipX = false;
+            GetComponent<SpriteRenderer>().flipX = true;
 
             EndTurn();
         }
@@ -56,12 +56,12 @@ public class Player : LivingEntity
     {
         if (is_meet_right && is_meet_left)
         {
-            GetComponent<SpriteRenderer>().flipX = true;
+            GetComponent<SpriteRenderer>().flipX = false;
         }
         else
         {
             transform.Translate(-2.5f, 0, 0);
-            GetComponent<SpriteRenderer>().flipX = true;
+            GetComponent<SpriteRenderer>().flipX = false;
 
             EndTurn();
         }
